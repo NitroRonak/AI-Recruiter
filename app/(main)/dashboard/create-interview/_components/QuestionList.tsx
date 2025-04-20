@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/services/supabaseClient";
 import { userDetails } from "@/app/provider";
 import { v4 as uuid } from "uuid";
-const QuestionList = ({ formData }: { formData: FormData }) => {
+const QuestionList = ({ formData, onCreateLink }: { formData: FormData, onCreateLink: (id: string) => void }) => {
   const { user } = userDetails();
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -59,7 +59,7 @@ const QuestionList = ({ formData }: { formData: FormData }) => {
       ])
       .select();
     setLoading2(false);
-    console.log(data);
+    onCreateLink(interview_id);
   };
   return (
     <div>
@@ -102,7 +102,7 @@ const QuestionList = ({ formData }: { formData: FormData }) => {
           <div className="flex justify-end mt-5 cursor-pointer">
             <Button disabled={loading2} onClick={onFinish}>
               {loading2 && <Loader2Icon className="animate-spin w-4 h-4" />}
-              Finish
+              Create Interview Link & Finish
             </Button>
           </div>
         </>

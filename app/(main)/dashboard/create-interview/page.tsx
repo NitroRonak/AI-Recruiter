@@ -6,6 +6,7 @@ import { useState } from 'react';
 import FormContainer from './_components/FormContainer';
 import QuestionList from './_components/QuestionList';
 import { toast } from "sonner"
+import InterviewLink from './_components/InterviewLink';
 
 export interface FormData {
     jobPosition: string;
@@ -16,7 +17,7 @@ export interface FormData {
 
 const CreateInterview = () => {
     const router = useRouter();
-
+    const [interviewId, setInterviewId] = useState("");
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
         jobPosition: "",
@@ -35,6 +36,10 @@ const CreateInterview = () => {
         }
         setStep(step + 1);
     }
+    const onCreateLink = (id: string) => {
+        setInterviewId(id);
+        setStep(step + 1);
+    }
   return (
     <div className='mt-5 px-10 md:px-24 lg:px-44 xl:px-56'>
       <div className='flex items-center gap-5'>
@@ -47,7 +52,10 @@ const CreateInterview = () => {
         step === 1 && <FormContainer onHandleInputChange={onHandleInputChange} goNext={() => onGoToNext()} />
       }
       {
-        step === 2 && <QuestionList  formData={formData}/>
+        step === 2 && <QuestionList  formData={formData} onCreateLink={(id: string) => onCreateLink(id)}/>
+      }
+      {
+        step === 3 && <InterviewLink interview_id={interviewId} formData={formData}/> 
       }
     </div>
   )
