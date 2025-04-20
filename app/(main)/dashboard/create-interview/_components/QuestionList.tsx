@@ -5,8 +5,13 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/services/supabaseClient";
+import { userDetails } from "@/app/provider";
+import { v4 as uuid } from "uuid";
 const QuestionList = ({ formData }: { formData: FormData }) => {
+  const { user } = userDetails();
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [questionList, setQuestionList] = useState([]);
   useEffect(() => {
     if (formData) {
@@ -39,8 +44,22 @@ const QuestionList = ({ formData }: { formData: FormData }) => {
     }
   };
   console.log("Questions", questionList);
-  const onFinish = () => {
-    
+  const onFinish = async () => {
+    setLoading2(true);
+    const interview_id = uuid();
+    const { data, error } = await supabase
+      .from("Interview")
+      .insert([
+        {
+          ...formData,
+          questionList: questionList,
+          userEmail: user?.email,
+          interview_id: interview_id,
+        },
+      ])
+      .select();
+    setLoading2(false);
+    console.log(data);
   };
   return (
     <div>
@@ -80,13 +99,12 @@ const QuestionList = ({ formData }: { formData: FormData }) => {
               </div>
             ))}
           </div>
-         <div className="flex justify-end mt-5">
-            <Button
-                onClick={onFinish}
-            >
-                Finish
+          <div className="flex justify-end mt-5 cursor-pointer">
+            <Button disabled={loading2} onClick={onFinish}>
+              {loading2 && <Loader2Icon className="animate-spin w-4 h-4" />}
+              Finish
             </Button>
-         </div>
+          </div>
         </>
       )}
     </div>
