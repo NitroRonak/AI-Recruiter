@@ -4,7 +4,11 @@ import DashboardProvider from './provider'
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
-      <DashboardProvider>{children}</DashboardProvider>
+      <DashboardProvider>
+        <div>
+        {children}
+        </div>
+      </DashboardProvider>
     </div>
   )
 }
