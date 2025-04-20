@@ -1,0 +1,96 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { FormData } from "../page";
+import axios from "axios";
+import { toast } from "sonner";
+import { Loader2Icon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+const QuestionList = ({ formData }: { formData: FormData }) => {
+  const [loading, setLoading] = useState(false);
+  const [questionList, setQuestionList] = useState([]);
+  useEffect(() => {
+    if (formData) {
+      GenerateQuestionList();
+    }
+  }, [formData]);
+  const GenerateQuestionList = async () => {
+    setLoading(true);
+    try {
+      const result = await axios.post("/api/ai-model", {
+        ...formData,
+      });
+      const response = result?.data?.content;
+      const match = response.match(/```json\s*([\s\S]*?)\s*```/);
+
+      if (!match || match.length < 2) {
+        throw new Error("No valid JSON block found in the response.");
+      }
+
+      // Step 2: Parse the extracted JSON string
+      const jsonString = match[1];
+      const parsed = JSON.parse(jsonString);
+      const finalData = parsed.interviewQuestions;
+      console.log(finalData);
+      setQuestionList(finalData);
+      setLoading(false);
+    } catch (error) {
+      toast.error("Something went wrong while generating questions");
+      setLoading(false);
+    }
+  };
+  console.log("Questions", questionList);
+  const onFinish = () => {
+    
+  };
+  return (
+    <div>
+      {loading && (
+        <div className="p-5 bg-[rgb(16,23,39)] rounded-2xl shadow-lg mt-5 flex flex-col gap-3 border border-gray-300 items-center">
+          <Loader2Icon className="animate-spin w-30 h-30" />
+          <div className="flex flex-col gap-2 items-center">
+            <h2 className="text-lg font-bold">
+              Generating Interview Questions
+            </h2>
+            <p className="text-muted-foreground">
+              Our AI model is generating interview questions based on your job
+              description.
+            </p>
+          </div>
+        </div>
+      )}
+      {questionList.length > 0 && (
+        <>
+          <h2 className="font-bold text-2xl">Generated Interview Questions</h2>
+          <div className="p-5 bg-[rgb(16,23,39)] mt-5 rounded-2xl flex flex-col gap-3">
+            {questionList.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="p-3 border border-gray-300 flex flex-col gap-2 rounded-2xl"
+              >
+                <h2 className="font-medium">
+                  <span className="font-bold text-blue-600">
+                    Question {index + 1}
+                  </span>
+                  : {item.question}
+                </h2>
+                <h2>
+                  <span className="font-bold text-blue-600">Type</span>:{" "}
+                  {item.type}
+                </h2>
+              </div>
+            ))}
+          </div>
+         <div className="flex justify-end mt-5">
+            <Button
+                onClick={onFinish}
+            >
+                Finish
+            </Button>
+         </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default QuestionList;
