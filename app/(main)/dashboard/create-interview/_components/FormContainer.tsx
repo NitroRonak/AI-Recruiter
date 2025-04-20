@@ -14,8 +14,10 @@ import { ArrowRight } from "lucide-react";
 
 const FormContainer = ({
   onHandleInputChange,
+  goNext
 }: {
   onHandleInputChange: (field: string, value: string | string[]) => void;
+  goNext: () => void;
 }) => {
   const [selectInterviewType, setSelectInterviewType] = useState<string[]>([]);
 //   useEffect(() => {
@@ -91,7 +93,9 @@ const FormContainer = ({
         </div>
       </div>
       <div className="flex justify-end">
-        <Button className="mt-5 cursor-pointer hover:bg-blue-600 hover:text-white transition-all duration-200">
+        <Button className="mt-5 cursor-pointer hover:bg-blue-600 hover:text-white transition-all duration-200"
+            onClick={goNext}
+        >
           Generate Question <ArrowRight />
         </Button>
       </div>
