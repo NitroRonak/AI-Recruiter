@@ -4,13 +4,36 @@ import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import FormContainer from './_components/FormContainer';
+import QuestionList from './_components/QuestionList';
+import { toast } from "sonner"
+
+export interface FormData {
+    jobPosition: string;
+    jobDescription: string;
+    type: string[];
+    duration: string;
+}
+
 const CreateInterview = () => {
     const router = useRouter();
 
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<FormData>({
+        jobPosition: "",
+        jobDescription: "",
+        type: [],
+        duration: "",
+      });
     const onHandleInputChange = (field: string,value:string | string[]) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
+    }
+    const onGoToNext = () => {
+        if(!formData.jobPosition || !formData.jobDescription || !formData.type || !formData.duration) {
+            console.log("inside next");
+            toast.error("All fields are required");
+            return
+        }
+        setStep(step + 1);
     }
   return (
     <div className='mt-5 px-10 md:px-24 lg:px-44 xl:px-56'>
@@ -20,7 +43,12 @@ const CreateInterview = () => {
         
       </div>
       <Progress value={step * 33.33} className='mt-5 w-full'/>
-      <FormContainer onHandleInputChange={onHandleInputChange}/>
+      {
+        step === 1 && <FormContainer onHandleInputChange={onHandleInputChange} goNext={() => onGoToNext()} />
+      }
+      {
+        step === 2 && <QuestionList  formData={formData}/>
+      }
     </div>
   )
 }
