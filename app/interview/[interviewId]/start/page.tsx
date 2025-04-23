@@ -1,6 +1,6 @@
 "use client";
 import { InterviewDataContext } from "@/context/InterviewDataContext";
-import { Mic, Phone, Timer } from "lucide-react";
+import { Loader2Icon, Mic, Phone, Timer } from "lucide-react";
 import Image from "next/image";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AI_RecruiterLogo from "@/assets/images/AI-Recruiter.png";
@@ -15,11 +15,12 @@ import { useParams, useRouter } from "next/navigation";
 const StartInterview = () => {
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
   const [activeUser, setActiveUser] = useState<boolean>(false);
-  const [conversation, setConversation] = useState();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [conversation, setConversation] = useState<any>();
   const { interviewId } = useParams();
   const vapiRef = useRef<any>(null);
   const [interviewDuration, setInterviewDuration] = useState(0); // in seconds
-  const router=useRouter();
+  const router = useRouter();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const requestMicPermission = async () => {
@@ -46,6 +47,15 @@ const StartInterview = () => {
         process.env.NEXT_PUBLIC_VAPI_API_KEY as string
       );
     }
+
+    const handleMessage = (message: any) => {
+      console.log("message", message);
+      if (message?.conversation) {
+        const convoString = JSON.stringify(message?.conversation);
+        console.log("Conversation String", convoString);
+        setConversation(convoString);
+      }
+    };
     const vapi = vapiRef.current;
 
     vapi.on("call-start", () => {
@@ -73,10 +83,7 @@ const StartInterview = () => {
       GenerateFeedBack();
     });
 
-    vapi.on("message", (message: any) => {
-      console.log("message", message);
-      setConversation(message?.conversation);
-    });
+    vapi.on("message", handleMessage);
 
     vapi.on("error", (err: any) => {
       console.error("VAPI Error:", err);
@@ -84,12 +91,15 @@ const StartInterview = () => {
     });
 
     return () => {
-      if (vapiRef.current) {
-        vapiRef.current.stop(); // Safely stop on unmount
-      }
       if (timerRef.current) {
         clearInterval(timerRef.current); // Stop the ticking timer
       }
+      vapi.off("message", handleMessage);
+      vapi.off("call-start", () => {});
+      vapi.off("call-end", () => {});
+      vapi.off("speech-start", () => {});
+      vapi.off("speech-end", () => {});
+      vapi.off("error", () => {});
     };
   }, []);
 
@@ -163,6 +173,7 @@ Key Guidelines:
   };
 
   const GenerateFeedBack = async () => {
+    setLoading(true);
     const result = await axios.post("/api/ai-feedback", {
       conversation: conversation,
     });
@@ -190,8 +201,9 @@ Key Guidelines:
         },
       ])
       .select();
-      console.log("Feedback Inserted", data);
-      router.replace(`/interview/${interviewId}/completed`);
+    console.log("Feedback Inserted", data);
+    router.replace(`/interview/${interviewId}/completed`);
+    setLoading(false);
   };
 
   const startMic = () => {};
@@ -239,9 +251,9 @@ Key Guidelines:
           className="h-12 w-12 bg-gray-500 p-3 rounded-full cursor-pointer"
           onClick={startMic}
         />
-        <AlertConfirmation stopInterview={stopInterview}>
-          <Phone className="h-12 w-12 bg-red-500 p-3 rounded-full cursor-pointer" />
-        </AlertConfirmation>
+        {/* <AlertConfirmation stopInterview={stopInterview}> */}
+        {!loading ?  <Phone className="h-12 w-12 bg-red-500 p-3 rounded-full cursor-pointer" onClick={stopInterview} /> : <Loader2Icon className="animate-spin"/>}
+        {/* </AlertConfirmation> */}
       </div>
       <h2 className="text-md font-bold mt-5 text-gray-500 text-center">
         Interview for {interviewInfo?.jobPosition} is in progress...
