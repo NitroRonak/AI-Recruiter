@@ -1,9 +1,15 @@
 import React from "react";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
-import { Copy, Send } from "lucide-react";
+import { ArrowRight, Copy, Send } from "lucide-react";
 import { toast } from "sonner";
-const InterviewCard = ({ interview }) => {
+const InterviewCard = ({
+  interview,
+  viewDetails = false,
+}: {
+  interview: any;
+  viewDetails?: boolean;
+}) => {
   const url = process.env.NEXT_PUBLIC_HOST_URL + `/${interview?.interview_id}`;
   const copyLink = () => {
     navigator.clipboard.writeText(url);
@@ -22,15 +28,24 @@ const InterviewCard = ({ interview }) => {
         </h2>
       </div>
       <h2 className="font-bold mt-3 text-lg">{interview?.jobPosition}</h2>
-      <h2 className="mt-2 text-gray-400">{interview?.duration}</h2>
-      <div className="flex gap-3 mt-5">
-        <Button variant="outline" className="flex-1" onClick={copyLink}>
-          <Copy />
+      <h2 className="mt-2 text-gray-400 flex justify-between">
+        {interview?.duration}
+        <span className="text-blue-400">{interview["interview-feedback"]?.length} Candidates</span>
+      </h2>
+      {!viewDetails ? (
+        <div className="flex gap-3 mt-5">
+          <Button variant="outline" className="flex-1" onClick={copyLink}>
+            <Copy />
+          </Button>
+          <Button variant="outline" className="flex-1" onClick={onSend}>
+            <Send />
+          </Button>
+        </div>
+      ) : (
+        <Button className="mt-5 w-full cursor-pointer">
+          View Detail <ArrowRight />
         </Button>
-        <Button variant="outline" className="flex-1" onClick={onSend}>
-          <Send />
-        </Button>
-      </div>
+      )}
     </div>
   );
 };
