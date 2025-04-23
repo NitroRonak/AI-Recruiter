@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
+import CandidateFeedbackDialog from "./CandidateFeedbackDialog";
 const CandidateList = ({ candidateList }: { details: any[] }) => {
   console.log("details", candidateList);
   return (
@@ -22,7 +23,7 @@ const CandidateList = ({ candidateList }: { details: any[] }) => {
             </div>
             <div className="flex items-center gap-3">
                 <h2 className="font-bold text-green-300">{item?.totalRating ? item?.totalRating : 0}/10</h2>
-                <Button variant={"secondary"} className="cursor-pointer hover:bg-blue-500 transition-all duration-200">View Record</Button>
+                <CandidateFeedbackDialog candidate={item}/>
             </div>
           </div>
         ))}
