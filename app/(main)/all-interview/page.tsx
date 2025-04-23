@@ -38,7 +38,7 @@ const AllInterview = () => {
       {interviewsList && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
           {interviewsList.map((interview) => (
-            <InterviewCard key={interview.id} interview={interview} />
+            <InterviewCard key={interview.interview_id} interview={interview} />
           ))}
         </div>
       )}
