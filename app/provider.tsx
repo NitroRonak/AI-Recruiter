@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
   const createNewUser = () => {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       let { data: Users, error } = await supabase
@@ -26,13 +27,20 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         }
       }
       setUser(Users[0]);
+      setLoading(false);
     });
   };
   useEffect(() => {
     createNewUser();
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      createNewUser(); // Re-fetch on login/logout
+    });
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
   }, []);
   return (
-    <UserDetailsContext.Provider value={{ user, setUser }}>
+    <UserDetailsContext.Provider value={{ user, setUser, loading }}>
       {children}
     </UserDetailsContext.Provider>
   );
