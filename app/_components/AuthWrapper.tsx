@@ -13,9 +13,9 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
     if (!loading && !user && !pathname.startsWith("/auth")) {
       router.replace("/auth");
     }
-    if (!loading && user && pathname === "/") {
-      router.replace("/dashboard");
-    }
+    // if (!loading && user && pathname === "/") {
+    //   router.replace("/dashboard");
+    // }
   }, [user, loading, pathname]);
 
   if (loading) return <div className="h-screen w-[100vw] flex items-center justify-center"><Loader2Icon className="animate-spin w-32 h-32" /></div>;
