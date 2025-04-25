@@ -31,11 +31,11 @@ export const SideBarOptions = [
     icon: WalletCards,
     path: "/billing",
   },
-  {
-    name: "Settings",
-    icon: Settings,
-    path: "/settings",
-  },
+  // {
+  //   name: "Settings",
+  //   icon: Settings,
+  //   path: "/settings",
+  // },
 ];
 
 export const InterviewType = [
