@@ -4,10 +4,15 @@ import { supabase } from "@/services/supabaseClient";
 import React, { useContext, useEffect, useState } from "react";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const createNewUser = () => {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
       let { data: Users, error } = await supabase
         .from("Users")
         .select("*")
@@ -20,9 +25,11 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         });
         if (error) {
           console.error("Insert error:", error.message);
+          setLoading(false);
         } else {
-            setUser(data);
+          setUser(data);
           console.log("User inserted:", data);
+          setLoading(false);
           return;
         }
       }
@@ -31,10 +38,21 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
     });
   };
   useEffect(() => {
+    // Initial fetch
     createNewUser();
-    const { data: listener } = supabase.auth.onAuthStateChange(() => {
-      createNewUser(); // Re-fetch on login/logout
-    });
+
+    // Listen for login/logout
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (session) {
+          createNewUser();
+        } else {
+          // User is logged out
+          setUser(null);
+          setLoading(false); // Stop loader
+        }
+      }
+    );
     return () => {
       listener?.subscription.unsubscribe();
     };
