@@ -27,7 +27,7 @@ const page = () => {
         <button
             onClick={signInWithGoogle}
             disabled={loading}
-          className="flex items-center justify-center gap-3 w-full py-3 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition"
+          className="cursor-pointer flex items-center justify-center gap-3 w-full py-3 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition"
         >
           <FcGoogle size={24} />
           {loading ? "Signing in..." : "Sign in with Google"}
