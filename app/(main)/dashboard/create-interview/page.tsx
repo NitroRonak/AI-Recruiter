@@ -7,6 +7,7 @@ import FormContainer from './_components/FormContainer';
 import QuestionList from './_components/QuestionList';
 import { toast } from "sonner"
 import InterviewLink from './_components/InterviewLink';
+import { userDetails } from '@/app/provider';
 
 export interface FormData {
     jobPosition: string;
@@ -17,6 +18,7 @@ export interface FormData {
 
 const CreateInterview = () => {
     const router = useRouter();
+    const {user}=userDetails();
     const [interviewId, setInterviewId] = useState("");
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
@@ -29,6 +31,10 @@ const CreateInterview = () => {
         setFormData((prev) => ({ ...prev, [field]: value }));
     }
     const onGoToNext = () => {
+        if(user?.credits === 0) {
+            toast.error("You don't have enough credits to create an interview , Add more credits to your account");
+            return;
+        }
         if(!formData.jobPosition || !formData.jobDescription || !formData.type || !formData.duration) {
             console.log("inside next");
             toast.error("All fields are required");

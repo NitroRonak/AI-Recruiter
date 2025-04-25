@@ -8,7 +8,13 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/services/supabaseClient";
 import { userDetails } from "@/app/provider";
 import { v4 as uuid } from "uuid";
-const QuestionList = ({ formData, onCreateLink }: { formData: FormData, onCreateLink: (id: string) => void }) => {
+const QuestionList = ({
+  formData,
+  onCreateLink,
+}: {
+  formData: FormData;
+  onCreateLink: (id: string) => void;
+}) => {
   const { user } = userDetails();
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -43,7 +49,6 @@ const QuestionList = ({ formData, onCreateLink }: { formData: FormData, onCreate
       setLoading(false);
     }
   };
-  console.log("Questions", questionList);
   const onFinish = async () => {
     setLoading2(true);
     const interview_id = uuid();
@@ -58,6 +63,17 @@ const QuestionList = ({ formData, onCreateLink }: { formData: FormData, onCreate
         },
       ])
       .select();
+
+    //update user creadits
+
+    const userUpdate = await supabase
+      .from("Users")
+      .update({ credits: Number(user?.credits) - 1 })
+      .eq("email", user?.email)
+      .select();
+
+    console.log(userUpdate);
+
     setLoading2(false);
     onCreateLink(interview_id);
   };
