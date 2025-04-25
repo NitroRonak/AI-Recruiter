@@ -1,103 +1,121 @@
-import Image from "next/image";
+"use client";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import {
+  Brain,
+  Settings2,
+  UserCheck,
+  BarChart,
+  ArrowRight,
+  MessageSquareHeart,
+  Zap,
+  UserPlus,
+} from "lucide-react";
 
-export default function Home() {
+export default function FullLandingPage() {
+  const router = useRouter();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="bg-slate-900 text-white min-h-screen">
+      {/* Navbar */}
+      <header className="sticky top-0 z-10 bg-slate-900 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2 text-xl font-bold text-blue-500">
+            <Brain className="w-6 h-6" />
+            AI Recruiter
+          </div>
+          <nav className="hidden md:flex gap-6 text-gray-300">
+            <a href="#features" className="hover:text-white">Features</a>
+            <a href="#how-it-works" className="hover:text-white">How It Works</a>
+            <a href="#pricing" className="hover:text-white">Pricing</a>
+            <a href="#contact" className="hover:text-white">Contact</a>
+          </nav>
+          {/* <Button onClick={() => router.push("/dashboard")} className="bg-blue-600 hover:bg-blue-700">
+            Get Started
+          </Button> */}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      {/* Hero Section */}
+      <section className="text-center px-6 py-20 max-w-4xl mx-auto">
+        <h1 className="text-5xl font-extrabold mb-4 leading-tight">
+          Supercharge Hiring with <span className="text-blue-500">AI Interviews</span>
+        </h1>
+        <p className="text-lg text-gray-400 mb-8">
+          Build smart, customized interviews. Get meaningful candidate insights. Hire better.
+        </p>
+        <Button size="lg" className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-lg px-6 py-4" onClick={() => router.push("/dashboard")}>
+          Get Started <ArrowRight className="ml-2 w-5 h-5" />
+        </Button>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-16 bg-slate-800 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+          <Feature icon={<Settings2 className="text-blue-400 w-10 h-10 mx-auto" />} title="Smart Interviews" description="Generate tailored interview questions using AI." />
+          <Feature icon={<UserCheck className="text-green-400 w-10 h-10 mx-auto" />} title="Candidate Insights" description="Analyze answers, rank candidates, and reduce bias." />
+          <Feature icon={<BarChart className="text-purple-400 w-10 h-10 mx-auto" />} title="Performance Metrics" description="Track interview stats and candidate quality over time." />
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 px-6 text-center">
+        <h2 className="text-3xl font-bold mb-6">How It Works</h2>
+        <div className="max-w-4xl mx-auto grid gap-10 md:grid-cols-3">
+          <Step icon={<UserPlus className="text-yellow-400 w-8 h-8 mx-auto" />} title="1. Add Candidate" description="Quickly enter candidate details and role." />
+          <Step icon={<Zap className="text-pink-400 w-8 h-8 mx-auto" />} title="2. Generate Interview" description="AI instantly creates custom questions." />
+          <Step icon={<MessageSquareHeart className="text-blue-400 w-8 h-8 mx-auto" />} title="3. Review & Decide" description="Review answers, get AI feedback, and hire!" />
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-slate-800 px-6 text-center">
+        <h2 className="text-3xl font-bold mb-8">Simple Pricing</h2>
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <PricingCard credits={20} price="$5" />
+          <PricingCard credits={40} price="$12" />
+        </div>
+      </section>
+
+      {/* Contact/CTA Footer */}
+      <footer id="contact" className="text-center py-10 border-t border-slate-700">
+        <h3 className="text-xl font-semibold mb-2">Questions?</h3>
+        <p className="text-gray-400 mb-6">Email us at <a href="mailto:support@airecruiter.com" className="text-blue-500 hover:underline">example@airecruiter.com</a></p>
+        <Button onClick={() => router.push("/dashboard")} className="bg-blue-600 hover:bg-blue-700 cursor-pointer">
+          Go to Dashboard
+        </Button>
+        <p className="text-sm text-gray-500 mt-6">© {new Date().getFullYear()} AI Recruiter. All rights reserved.</p>
       </footer>
+    </main>
+  );
+}
+
+function Feature({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+  return (
+    <div>
+      {icon}
+      <h3 className="text-xl font-semibold mt-4 mb-2">{title}</h3>
+      <p className="text-gray-400">{description}</p>
+    </div>
+  );
+}
+
+function Step({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+  return (
+    <div>
+      {icon}
+      <h4 className="text-lg font-semibold mt-3">{title}</h4>
+      <p className="text-gray-400">{description}</p>
+    </div>
+  );
+}
+
+function PricingCard({ credits, price }: { credits: number, price: string }) {
+  return (
+    <div className="bg-slate-700 p-6 rounded-xl border border-slate-600">
+      <h4 className="text-2xl font-bold text-blue-400 mb-2">{credits} Credits</h4>
+      <p className="text-3xl font-extrabold mb-2">{price}</p>
+      <p className="text-gray-300 mb-4">Use credits anytime for interviews.</p>
     </div>
   );
 }
