@@ -25,10 +25,32 @@ const InterviewLink = ({
   const GetInterviewUrl = () => {
     return url;
   };
-  const onCopyLink = async() => {
+  const onCopyLink = async () => {
     await navigator.clipboard.writeText(url);
     toast.success("Link Copied");
   };
+  const sendOnWhatsapp = () => {
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(
+        `Hey! Here's your interview link: ${url}`
+      )}`,
+      "_blank"
+    );
+  };
+  const sendEmail = () => {
+    window.open(
+      `mailto:?subject=Recruitron - AI Interview Link & body=Interview Link: ${url}`,
+      "_blank"
+    );
+  }
+  const sendOnSlack = () => {
+    window.open(
+      `https://slack.com/app_redirect?channel=${encodeURIComponent(
+        `general`
+      )}&url=${encodeURIComponent(url)}`,
+      "_blank"
+    );
+  }
   return (
     <div className="flex flex-col items-center justify-center gap-2 mt-5 p-5">
       <CircleCheckBig className="bg-green-500 h-18 w-18 rounded-full" />
@@ -71,13 +93,13 @@ const InterviewLink = ({
       <div className="w-full p-7 bg-[rgb(16,23,39)] rounded-md mt-5">
         <h2 className="text-lg font-bold">Share the link via</h2>
         <div className="mt-3 flex items-center justify-between">
-          <Button variant={"outline"}>
+          <Button variant={"outline"} onClick={sendEmail}>
             <Mail className="mr-2 h-4 w-4" /> Email
           </Button>
-          <Button variant={"outline"}>
+          <Button variant={"outline"} onClick={sendOnSlack}>
             <Slack className="mr-2 h-4 w-4" /> Slack
           </Button>
-          <Button variant={"outline"}>
+          <Button variant={"outline"} onClick={sendOnWhatsapp}>
             <BsWhatsapp className="mr-2 h-4 w-4" /> WhatsApp
           </Button>
         </div>
