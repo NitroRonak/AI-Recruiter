@@ -22,7 +22,7 @@ const CandidateList = ({ candidateList }: { details: any[] }) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-                <h2 className="font-bold text-green-300">{item?.totalRating ? item?.totalRating : 0}/10</h2>
+                <h2 className="font-bold text-green-300">{item?.feedback?.feedback?.rating?.totalRating ? item?.feedback?.feedback?.rating?.totalRating : 0}/10</h2>
                 <CandidateFeedbackDialog candidate={item}/>
             </div>
           </div>
