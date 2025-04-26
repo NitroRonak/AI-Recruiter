@@ -41,7 +41,7 @@ const CandidateFeedbackDialog = ({ candidate }: { candidate: any }) => {
                 </div>
                 <div className="flex items-center gap-3">
                   <h2 className="font-bold text-green-300 text-2xl">
-                    {candidate?.totalRating ? candidate?.totalRating : 0}/10
+                    {feedback?.rating?.totalRating ? feedback?.rating?.totalRating : 0}/10
                   </h2>
                 </div>
               </div>
@@ -135,6 +135,12 @@ const CandidateFeedbackDialog = ({ candidate }: { candidate: any }) => {
                 </div>
                 <Button
                     variant={"secondary"}
+                    onClick={() => {
+                      window.open(
+                        `mailto:${candidate?.userEmail}?subject=Recruitron - Candidate Feedback & body=${"Based on your interview feedback, I would recommend " + (feedback?.recommendation == "No" ? "NOT" : "") + " hiring " + candidate?.userName + "."}`,
+                        "_blank"
+                      );
+                    }}
                   className={`${
                     feedback?.recommendation == "No"
                       ? "bg-red-500"
