@@ -21,6 +21,7 @@ const AllInterview = () => {
       .select("*")
       .eq("userEmail", user?.email)
       .order("created_at", { ascending: false });
+      // @ts-ignore
     setInterviewsList(Interview);
   };
 
