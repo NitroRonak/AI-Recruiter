@@ -28,13 +28,13 @@ export async function POST(req: Request) {
     const email = session.metadata?.userEmail;
 
     // Determine credits from price ID
-    const priceId =
-      session?.display_items?.[0]?.price?.id ||
-      session?.line_items?.[0]?.price?.id;
+    // const priceId =
+    //   session?.display_items?.[0]?.price?.id ||
+    //   session?.line_items?.[0]?.price?.id;
     let creditsToAdd = 0;
 
     // Match your actual Stripe price IDs here
-    switch (session?.metadata?.priceId || priceId) {
+    switch (session?.metadata?.priceId) {
       case process.env.NEXT_PUBLIC_PRICE_ID_20:
         creditsToAdd = 20;
         break;

@@ -20,6 +20,7 @@ const ScheduledInterview = () => {
       .eq("userEmail", user?.email)
       .order("created_at", { ascending: false });
     console.log(result);
+    //@ts-ignore
     setInterviewsList(result?.data);
   };
   return (

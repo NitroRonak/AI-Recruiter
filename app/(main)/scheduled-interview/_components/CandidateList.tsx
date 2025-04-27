@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
 import CandidateFeedbackDialog from "./CandidateFeedbackDialog";
-const CandidateList = ({ candidateList }: { details: any[] }) => {
+const CandidateList = ({ candidateList }: { candidateList: any[] }) => {
   console.log("details", candidateList);
   return (
     <div className="bg-[rgb(16,23,39)] mt-5 rounded-md">

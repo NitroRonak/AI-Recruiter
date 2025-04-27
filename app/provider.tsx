@@ -1,10 +1,10 @@
 "use client";
-import { UserDetailsContext } from "@/context/UserDetailsContext";
+import { UserDetailsContext, UserType } from "@/context/UserDetailsContext";
 import { supabase } from "@/services/supabaseClient";
 import React, { useContext, useEffect, useState } from "react";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
   const createNewUser = () => {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
@@ -33,7 +33,8 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
           return;
         }
       }
-      setUser(Users[0]);
+      //ts-ignore
+      setUser(Users?.[0]);
       setLoading(false);
     });
   };
@@ -67,5 +68,9 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
 export default Provider;
 
 export const userDetails = () => {
-  return useContext(UserDetailsContext);
+  const context = useContext(UserDetailsContext);
+  if (!context) {
+    throw new Error("useUserDetails must be used within a UserDetailsProvider");
+  }
+  return context;
 };

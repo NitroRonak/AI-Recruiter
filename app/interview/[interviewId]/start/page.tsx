@@ -13,6 +13,7 @@ import { supabase } from "@/services/supabaseClient";
 import { useParams, useRouter } from "next/navigation";
 
 const StartInterview = () => {
+  //@ts-ignore
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
   const [activeUser, setActiveUser] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);

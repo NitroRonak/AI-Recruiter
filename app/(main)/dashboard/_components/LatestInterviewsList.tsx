@@ -21,7 +21,7 @@ const LatestInterviewsList = () => {
       .eq("userEmail", user?.email)
       .order("created_at", { ascending: false })
       .limit(4);
-    setInterviewsList(Interview);
+    setInterviewsList(Interview || []);
   };
 
   return (

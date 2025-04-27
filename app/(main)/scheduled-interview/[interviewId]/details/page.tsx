@@ -24,6 +24,7 @@ const InterviewDetail = () => {
       .eq("interview_id", interviewId);
 
     console.log(result);
+    //@ts-ignore
     setInterviewDetails(result?.data[0]);
   };
   return (
@@ -32,6 +33,7 @@ const InterviewDetail = () => {
       {interviewDetails && (
         <>
           <InterviewDetailContainer interviewDetails={interviewDetails} />
+          {/* @ts-ignore */}
           <CandidateList candidateList={interviewDetails["interview-feedback"]} />
         </>
       )}

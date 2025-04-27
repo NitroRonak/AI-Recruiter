@@ -23,6 +23,7 @@ const Interview = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  //@ts-ignore
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
   const router = useRouter();
   useEffect(() => {
@@ -35,6 +36,7 @@ const Interview = () => {
         .from("Interview")
         .select("jobPosition,jobDescription,duration,type")
         .eq("interview_id", interviewId);
+        // @ts-ignore
       setInterviewData(Interview[0]);
       setLoading(false);
       if (Interview?.length === 0) {
@@ -53,10 +55,10 @@ const Interview = () => {
       .from("Interview")
       .select("*")
       .eq("interview_id", interviewId);
-    console.log(Interview[0]);
     setInterviewInfo({
         userName,
         userEmail,
+        // @ts-ignore
         interviewData: Interview[0],
     });
     router.push(`/interview/${interviewId}/start`);
