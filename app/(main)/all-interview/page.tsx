@@ -9,6 +9,7 @@ import InterviewCard from "../dashboard/_components/InterviewCard";
 
 const AllInterview = () => {
   const [interviewsList, setInterviewsList] = useState<any[]>([]);
+  // @ts-ignore
   const { user } = userDetails();
 
   useEffect(() => {
