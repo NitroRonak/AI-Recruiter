@@ -9,6 +9,9 @@ const page = () => {
     setLoading(true)
     const {error}=await supabase.auth.signInWithOAuth({
       provider: "google",
+      options:{
+        redirectTo:`${process.env.NEXT_PUBLIC_HOST_URL}/dashboard`
+      }
     })
     if(error){
       console.error("Error signing in with Google:", error.message);
