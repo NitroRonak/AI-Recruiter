@@ -16,8 +16,12 @@ interface interviewDataType {
   duration: string;
   type: string;
 }
+
+type Params = {
+  interviewId: string;
+}
 const Interview = () => {
-  const { interviewId } = useParams();
+  const { interviewId } = useParams() as Partial<Params>;
   const [interviewData, setInterviewData] =
     useState<interviewDataType | null>();
   const [userName, setUserName] = useState("");

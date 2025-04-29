@@ -10,7 +10,7 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!loading && !user && !pathname.startsWith("/auth")) {
+    if (!loading && !user && pathname?.startsWith("/auth") === false) {
       router.replace("/auth");
     }
     // if (!loading && user && pathname === "/") {

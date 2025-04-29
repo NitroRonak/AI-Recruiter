@@ -12,13 +12,16 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/services/supabaseClient";
 import { useParams, useRouter } from "next/navigation";
 
+type Params = {
+  interviewId: string;
+}
 const StartInterview = () => {
   //@ts-ignore
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
   const [activeUser, setActiveUser] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [conversation, setConversation] = useState<any>();
-  const { interviewId } = useParams();
+  const { interviewId } = useParams() as Partial<Params>;
   const vapiRef = useRef<any>(null);
   const [interviewDuration, setInterviewDuration] = useState(0); // in seconds
   const router = useRouter();

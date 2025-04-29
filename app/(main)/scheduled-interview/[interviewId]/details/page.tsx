@@ -6,8 +6,11 @@ import React, { useEffect, useState } from "react";
 import InterviewDetailContainer from "../../_components/InterviewDetailContainer";
 import CandidateList from "../../_components/CandidateList";
 
+type Params = {
+  interviewId: string;
+}
 const InterviewDetail = () => {
-  const { interviewId } = useParams();
+  const { interviewId } = useParams() as Partial<Params>;
   const { user } = userDetails();
   const [interviewDetails, setInterviewDetails] = useState<any>(null);
 
