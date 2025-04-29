@@ -38,9 +38,13 @@ const QuestionList = ({
       }
 
       // Step 2: Parse the extracted JSON string
-      const jsonString = match[1];
-      const parsed = JSON.parse(jsonString);
-      const finalData = parsed.interviewQuestions;
+      const jsonString = match[1].trim();
+
+      // Remove variable assignment if present
+      const cleanedJson = jsonString.replace(/^interviewQuestions\s*=\s*/, "");
+
+      const parsed = JSON.parse(cleanedJson);
+      const finalData = parsed; // Now it's just the array
       console.log(finalData);
       setQuestionList(finalData);
       setLoading(false);
